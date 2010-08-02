@@ -1,0 +1,60 @@
+#!/usr/bin/php
+<?php
+
+$sapi = strtolower(php_sapi_name());
+if ( 'cli' != $sapi ) {
+	g2c_exit('Please run git2cl from the command line');
+}
+
+if ( 2 != $argc ) {
+	g2c_exit('Usage: git2cl <path-to-repository>');
+}
+
+$gitPath = escapeshellarg($argv[1]);
+$gitLog = shell_exec("cd {$gitPath}; git log --date=short --format=%an%n%ae%n%ai%n%s%n###");
+$gitLogBits = explode('###' . PHP_EOL, $gitLog);
+
+$fh = fopen('./ChangeLog', 'w+');
+if ( !$fh ) {
+	g2c_exit('Failed to open ./ChangeLog');
+}
+
+$changeLog = array();
+
+foreach ( $gitLogBits as $log ) {
+	$log = trim($log);
+	$bits = explode(PHP_EOL, $log);
+	
+	if ( 4 == count($bits) ) {
+		$author = $bits[0];
+		$email = $bits[1];
+		$date = $bits[2];
+		$message = $bits[3];
+		
+		$exactDate = date('Y-m-d H:i:s', strtotime($date));
+		$changeLog[$exactDate][] = array(
+			'author' => $author,
+			'email' => $email,
+			'message' => $message
+		);
+	}
+}
+
+reset($changeLog);
+
+foreach ( $changeLog as $entryDate => $entryList ) {
+	fwrite($fh, $entryDate . PHP_EOL);
+	
+	foreach ( $entryList as $entry ) {
+		fwrite($fh, "\t* {$entry['author']} <{$entry['email']}> {$entry['message']}>" . PHP_EOL);
+	}
+	
+	fwrite($fh, PHP_EOL);
+}
+
+fclose($fh);
+
+function g2c_exit($message) {
+	echo $message, PHP_EOL;
+	exit(0);
+}
