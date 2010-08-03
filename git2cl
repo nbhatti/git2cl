@@ -19,11 +19,6 @@ $gitLogBits = explode('###' . PHP_EOL, $gitLog);
 $gitRealPath = realpath($gitPath);
 $changeLogPath = "{$gitRealPath}/ChangeLog";
 
-$fh = fopen($changeLogPath, 'w+');
-if ( !$fh ) {
-	g2c_exit('Failed to open ./ChangeLog');
-}
-
 $changeLog = array();
 
 foreach ( $gitLogBits as $log ) {
@@ -48,13 +43,15 @@ foreach ( $gitLogBits as $log ) {
 
 reset($changeLog);
 
+$fh = fopen($changeLogPath, 'w+');
+if ( !$fh ) {
+	g2c_exit("Failed to open {$changeLogPath}.");
+}
 foreach ( $changeLog as $entryDate => $entryList ) {
 	fwrite($fh, $entryDate . PHP_EOL);
-	
 	foreach ( $entryList as $entry ) {
 		fwrite($fh, "\t* {$entry['author']} <{$entry['email']}> {$entry['message']} (+{$entry['seconds']} seconds)" . PHP_EOL);
 	}
-	
 	fwrite($fh, PHP_EOL);
 }
 

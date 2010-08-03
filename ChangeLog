@@ -1,3 +1,10 @@
+2010-08-03 07:00
+	* Vic Cherubini <vmc@leftnode.com> Better readme. (+11 seconds)
+	* Vic Cherubini <vmc@leftnode.com> Updated ChangeLog (+03 seconds)
+
+2010-08-03 06:59
+	* Vic Cherubini <vmc@leftnode.com> Now accepts 0 or 1 arguments, if 0 arguments, uses '.' as the path to the repository, otherwise uses the argument. (+56 seconds)
+
 2010-08-03 06:56
 	* Vic Cherubini <vmc@leftnode.com> Trying to get nicer headers. (+36 seconds)
 	* Vic Cherubini <vmc@leftnode.com> Better readme (+02 seconds)
