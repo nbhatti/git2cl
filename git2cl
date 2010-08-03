@@ -12,6 +12,7 @@ if ( 2 != $argc ) {
 
 $gitPath = escapeshellarg($argv[1]);
 $gitLog = shell_exec("cd {$gitPath}; git log --date=short --format=%an%n%ae%n%ai%n%s%n###");
+//$gitLog = trim($gitLog);
 $gitLogBits = explode('###' . PHP_EOL, $gitLog);
 
 $fh = fopen('./ChangeLog', 'w+');
@@ -25,14 +26,15 @@ foreach ( $gitLogBits as $log ) {
 	$log = trim($log);
 	$bits = explode(PHP_EOL, $log);
 	
-	if ( 4 == count($bits) ) {
+	if ( count($bits) > 1 ) {
 		$author = $bits[0];
 		$email = $bits[1];
 		$date = $bits[2];
 		$message = $bits[3];
 		
-		$exactDate = date('Y-m-d H:i:s', strtotime($date));
+		$exactDate = date('Y-m-d H:i', strtotime($date));
 		$changeLog[$exactDate][] = array(
+			'seconds' => date('s', strtotime($date)),
 			'author' => $author,
 			'email' => $email,
 			'message' => $message
@@ -46,7 +48,7 @@ foreach ( $changeLog as $entryDate => $entryList ) {
 	fwrite($fh, $entryDate . PHP_EOL);
 	
 	foreach ( $entryList as $entry ) {
-		fwrite($fh, "\t* {$entry['author']} <{$entry['email']}> {$entry['message']}>" . PHP_EOL);
+		fwrite($fh, "\t* {$entry['author']} <{$entry['email']}> {$entry['message']} (+{$entry['seconds']} seconds)" . PHP_EOL);
 	}
 	
 	fwrite($fh, PHP_EOL);
