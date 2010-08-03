@@ -31,7 +31,7 @@ foreach ( $gitLogBits as $log ) {
 		$date = $bits[2];
 		$message = $bits[3];
 		
-		$exactDate = date('Y-m-d H:i', strtotime($date));
+		$exactDate = date('Y-m-d', strtotime($date));
 		$changeLog[$exactDate][] = array(
 			'seconds' => date('s', strtotime($date)),
 			'author' => $author,
