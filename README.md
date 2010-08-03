@@ -7,8 +7,7 @@ Turn your git commit logs to a single ChangeLog file in your repository.
 * Executing `git2cl > /path/to/ChangeLog` works as well, and assumes `.` as the repository directory.
 
 ### Authors
-Vic Cherubini <vmc@leftnode.com>
-
+Vic Cherubini <vmc@leftnode.com><br>
 Zach Campbell <zacharydangercampbell@gmail.com>
 
 ### Requirements
