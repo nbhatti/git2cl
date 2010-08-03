@@ -6,11 +6,12 @@ if ( 'cli' != $sapi ) {
 	g2c_exit('Please run git2cl from the command line');
 }
 
-if ( 2 != $argc ) {
-	g2c_exit('Usage: git2cl <path-to-repository>');
+if ( 1 == $argc ) {
+	$gitPath = '.';
+} else {
+	$gitPath = $argv[1];
 }
 
-$gitPath = $argv[1];
 $gitPathEscaped = escapeshellarg($gitPath);
 $gitLog = shell_exec("cd {$gitPathEscaped}; git log --date=short --format=%an%n%ae%n%ai%n%s%n###");
 $gitLogBits = explode('###' . PHP_EOL, $gitLog);
