@@ -8,6 +8,7 @@ Turn your git commit logs to a single ChangeLog file in your repository.
 
 ### Authors
 Vic Cherubini <vmc@leftnode.com>
+
 Zach Campbell <zacharydangercampbell@gmail.com>
 
 ### Requirements
