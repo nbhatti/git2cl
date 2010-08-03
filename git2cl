@@ -43,19 +43,13 @@ foreach ( $gitLogBits as $log ) {
 
 reset($changeLog);
 
-$fh = fopen($changeLogPath, 'w+');
-if ( !$fh ) {
-	g2c_exit("Failed to open {$changeLogPath}.");
-}
 foreach ( $changeLog as $entryDate => $entryList ) {
-	fwrite($fh, $entryDate . PHP_EOL);
+	fwrite(STDOUT, $entryDate . PHP_EOL);
 	foreach ( $entryList as $entry ) {
-		fwrite($fh, "\t* {$entry['author']} <{$entry['email']}> {$entry['message']} (+{$entry['seconds']} seconds)" . PHP_EOL);
+		fwrite(STDOUT, "\t* {$entry['author']} <{$entry['email']}> {$entry['message']} (+{$entry['seconds']} seconds)" . PHP_EOL);
 	}
-	fwrite($fh, PHP_EOL);
+	fwrite(STDOUT, PHP_EOL);
 }
-
-fclose($fh);
 
 function g2c_exit($message) {
 	echo $message, PHP_EOL;
