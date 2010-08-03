@@ -7,7 +7,7 @@ Turn your git commit logs to a single ChangeLog file in your repository.
 * Executing `git2cl` works as well, and assumes `.` as the repository directory.
 
 ### Author
-Vic Cherubini <vmc@leftnode.com>
+Vic Cherubini &lt;vmc@leftnode.com&gt;
 
 ### Requirements
 PHP 4, 5, 6, 5.4, trunk, just about any version above 4, really.
