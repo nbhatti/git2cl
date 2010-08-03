@@ -10,11 +10,15 @@ if ( 2 != $argc ) {
 	g2c_exit('Usage: git2cl <path-to-repository>');
 }
 
-$gitPath = escapeshellarg($argv[1]);
-$gitLog = shell_exec("cd {$gitPath}; git log --date=short --format=%an%n%ae%n%ai%n%s%n###");
+$gitPath = $argv[1];
+$gitPathEscaped = escapeshellarg($gitPath);
+$gitLog = shell_exec("cd {$gitPathEscaped}; git log --date=short --format=%an%n%ae%n%ai%n%s%n###");
 $gitLogBits = explode('###' . PHP_EOL, $gitLog);
 
-$fh = fopen('./ChangeLog', 'w+');
+$gitRealPath = realpath($gitPath);
+$changeLogPath = "{$gitRealPath}/ChangeLog";
+
+$fh = fopen($changeLogPath, 'w+');
 if ( !$fh ) {
 	g2c_exit('Failed to open ./ChangeLog');
 }
