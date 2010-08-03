@@ -33,7 +33,7 @@ foreach ( $gitLogBits as $log ) {
 		
 		$exactDate = date('Y-m-d', strtotime($date));
 		$changeLog[$exactDate][] = array(
-			'seconds' => date('s', strtotime($date)),
+			'time' => date('H:i:s', strtotime($date)),
 			'author' => $author,
 			'email' => $email,
 			'message' => $message
@@ -46,7 +46,7 @@ reset($changeLog);
 foreach ( $changeLog as $entryDate => $entryList ) {
 	fwrite(STDOUT, $entryDate . PHP_EOL);
 	foreach ( $entryList as $entry ) {
-		fwrite(STDOUT, "\t* {$entry['author']} <{$entry['email']}> {$entry['message']} (+{$entry['seconds']} seconds)" . PHP_EOL);
+		fwrite(STDOUT, "\t* {$entry['author']} <{$entry['email']}> {$entry['message']} ({$entry['time']})" . PHP_EOL);
 	}
 	fwrite(STDOUT, PHP_EOL);
 }
